@@ -8,7 +8,7 @@ import TablaModulos from "../iu/TablaModulos";
 import Modal from "../estado/Modal";
 
 export default function Estado() {
-  const [tipos, setTipos] = useState([]);
+  const [marcas, setMarcas] = useState([]);
   const [estado, setEstado] = useState({
     _id: "",
     nombre: "",
@@ -23,7 +23,7 @@ export default function Estado() {
       obtenerTodos()
         .then((r) => {
           console.log(r);
-          setTipos(r.data.marcas);
+          setMarcas(r.data.marcas);
         })
         .catch((e) => {
           console.log(e);
@@ -55,7 +55,7 @@ export default function Estado() {
   const guardarEstado = () => {
     guardar(estado)
       .then((r) => {
-        setTipos([...tipos, r.data]);
+        setMarcas([...marcas, r.data]);
         changeError(false);
         setLoading(false);
       })
@@ -82,7 +82,7 @@ export default function Estado() {
       setLoading(false);
       const id = e.target.getAttribute("data");
       console.log(id);
-      const estadoFilter = tipos.filter((est) => est._id == id)[0];
+      const estadoFilter = marcas.filter((est) => est._id === id)[0];
       setEstado({
         ...estadoFilter,
       });
@@ -95,8 +95,8 @@ export default function Estado() {
         console.log(r.data._id);
         const id = r.data._id;
         if (!r.data.estado) {
-          const activos = tipos.filter((est) => est._id !== id);
-          setTipos(activos);
+          const activos = marcas.filter((est) => est._id !== id);
+          setMarcas(activos);
         }
         changeError(false);
         setLoading(false);
@@ -128,7 +128,7 @@ export default function Estado() {
         <i className="fa-solid fa-plus"></i>
         Agregar
       </button>
-      <TablaModulos componentes={tipos} openEditById={openEditById} />
+      <TablaModulos componentes={marcas} openEditById={openEditById} />
       <Modal
         estado={estado}
         loading={loading}
